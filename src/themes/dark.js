@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
-import commonSettings from "./global.js";
+import commonSettings, { handleBackdropFilter } from "./global.js";
 
 // TODO: Break repeated use color values out into list of consts declared here
 // then set the values in darkTheme using the global color variables
@@ -20,10 +20,10 @@ const darkTheme = {
     radial-gradient(circle at 10% 0%, rgba(187, 211, 204, 0.33), rgba(187,211,204,0) 35%),
     radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
     `,
-  paperBg: "#010e07",
+  paperBg: "rgba(54, 56, 64, 0.4)",
   modalBg: "#24242699",
   popoverBg: "rgba(54, 56, 64, 0.99)",
-  menuBg: "#36384080",
+  menuBg: handleBackdropFilter("rgba(54, 56, 64, 0.5)"),
   backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
@@ -39,6 +39,8 @@ const darkTheme = {
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
   graphStrokeColor: "rgba(255, 255, 255, .1)",
+  gridButtonHoverBackground: "rgba(255, 255, 255, 0.6)",
+  gridButtonActiveBackground: "#00000038",
 };
 
 export const dark = responsiveFontSizes(
@@ -66,14 +68,10 @@ export const dark = responsiveFontSizes(
           secondary: darkTheme.gray,
         },
         graphStrokeColor: darkTheme.graphStrokeColor,
+        highlight: darkTheme.textHighlightColor,
       },
       typography: {
         fontFamily: "Square",
-      },
-      props: {
-        MuiSvgIcon: {
-          htmlColor: darkTheme.color,
-        },
       },
       overrides: {
         MuiCssBaseline: {
@@ -88,6 +86,11 @@ export const dark = responsiveFontSizes(
           paper: {
             backgroundColor: darkTheme.paperBg,
             zIndex: 7,
+          },
+        },
+        MuiSelect: {
+          select: {
+            color: "#F8CC82",
           },
         },
         MuiPaper: {
@@ -191,9 +194,8 @@ export const dark = responsiveFontSizes(
             color: darkTheme.primaryButtonColor,
             backgroundColor: darkTheme.gold,
             "&:hover": {
-              backgroundColor: darkTheme.outlinedSecondaryButtonHoverBG,
-              color: darkTheme.gold,
-              borderColor: darkTheme.gold,
+              backgroundColor: darkTheme.primaryButtonHoverBG,
+              color: darkTheme.primaryButtonHoverColor,
             },
             "&:active": {
               backgroundColor: darkTheme.primaryButtonHoverBG,
@@ -268,6 +270,39 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
             "&:hover": {
               color: darkTheme.textHighlightColor,
+            },
+          },
+          "&.grid-button-text": {
+            color: "#FFFFFF",
+          },
+        },
+        MuiTypography: {
+          root: {
+            "&.grid-message-typography": {
+              color: "#A3A3A3",
+            },
+            "&.chain-highlight": {
+              color: "#DADADA",
+            },
+            "&.current": {
+              color: darkTheme.gold,
+            },
+          },
+        },
+        MuiGrid: {
+          root: {
+            "&.grid-button": {
+              borderColor: `#FFFFFF !important`,
+              "&:hover": {
+                backgroundColor: darkTheme.gridButtonHoverBackground,
+              },
+              "&.current": {
+                borderColor: `${darkTheme.gold} !important`,
+                backgroundColor: darkTheme.gridButtonActiveBackground,
+                "&:hover": {
+                  backgroundColor: darkTheme.gridButtonHoverBackground,
+                },
+              },
             },
           },
         },
